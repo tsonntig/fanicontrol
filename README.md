@@ -13,6 +13,5 @@ This approach is very simple but also stupid. Because we didn't know if this fan
 
 A often seen Problem under Linux is that the Fanspeed is missing if you want to control the fanspeed by yourself. It seems a good way for Hardware manufactures to avoid People from controlling fans...
 
-
 **The Solution**
 
