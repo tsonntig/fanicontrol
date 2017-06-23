@@ -13,11 +13,11 @@ try:
     import os
     import re
     import traceback
-    # from res.Main_util import version_check
+    from res.Main_util import version_check
 except Exception:
     print(
         "can't import, probably because your python is too old"
-        "or some Files are missing")
+        " or some Files are missing")
     sys.exit(1)
 ####
 ####
@@ -130,6 +130,7 @@ def get_global():
 
 def main_function():
     try:
+        print(sys.version_info)
         print('Start Autoconfig, please check the generated Configfile !')
         parser = argparse.ArgumentParser()
         parser.add_argument('-c', '--config', help='Path to configfile')
