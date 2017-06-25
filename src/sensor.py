@@ -1,14 +1,17 @@
 '''
-Created on 15.05.2016
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2
+ * of the License.
 
-@author: thomas
+@author: tsonntig
 '''
-from asyncio.log import logger
+
 from subprocess import check_output
 import logging
 import re
 
-from res.Sensor_algo import algo
+from sensor_algo import algo
 
 
 class Sensor(object):
@@ -19,30 +22,6 @@ class Sensor(object):
         sensor_path:
         target_temp:
     """
-#  # public Functions
-#  #
-#  #
-
-    def get_algo(self):
-        return self.algo
-
-    def get_sensor_path(self):
-        return self.sensor_path
-
-    def get_maxTemp(self):
-        return self.max_temp
-
-    def get_target_temp(self):
-        return self.target_temp
-
-    def get_name(self):
-        return self.name
-
-    def get_temp_varition(self):
-        return self.correction
-
-    def get_temp(self):
-        return self.temp
 
     def determine_temp_varition(self):
         self.temp = self._get_Data()

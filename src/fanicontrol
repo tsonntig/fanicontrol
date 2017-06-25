@@ -1,8 +1,11 @@
 #!/usr/bin/python
 '''
-Created on 15.08.2016
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2
+ * of the License.
 
-@author: thomas
+@author: tsonntig
 '''
 
 # Try Block nedded to be sure Python is not ancient
@@ -12,7 +15,7 @@ try:
     import signal
     import time
     import traceback
-    from res.Main_util import (
+    from main_util import (
         create_fans, create_logger, create_sensors, enable_fans,
         exit_prog, get_args, get_interval, get_pinterval, list_all, log_list,
         read_config, system_check, version_check)
@@ -61,7 +64,7 @@ def main_function():
             for fan in fans:
                 if not fan.sensors_list:
                     raise ValueError(
-                        "Fan " + fan.get_name() + " has no Sensor !")
+                        "Fan " + fan.name + " has no Sensor !")
         log_list(logger, fans)
         log_list(logger, sensors)
         pinterval = get_pinterval(config)
@@ -91,7 +94,7 @@ def main_loop(logger, fans, sensors, interval, pinterval):
     while 1:
         p = time.process_time()
         for sen in sensors:
-            logger.info("Next Sensor : " + sen.get_name())
+            logger.info("Next Sensor : " + sen.name)
             sen.determine_temp_varition()
             logger.info('Temperature : %s', sen.get_temp())
         for fan in fans:

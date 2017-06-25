@@ -1,12 +1,16 @@
 '''
-Created on 15.05.2016
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2
+ * of the License.
 
-@author: thomas
+@author: tsonntig
 '''
+
 from _collections import deque
 import logging
 
-from res.Fan_algo import use_algo
+from fan_algo import use_algo
 
 
 class Fan(object):
@@ -101,11 +105,15 @@ class Fan(object):
         self.logger.info(
             self.name + ' | Highest sensor : ' + str(sensor_high))
         self.logger.debug(
-            self.name + ' | Correction before multiply: ' + str(get_temp_varition))
+            self.name
+            + ' | Correction before multiply: '
+            + str(get_temp_varition))
         correction = use_algo(self, get_temp_varition,
                               self.algo, self.lastvalue)
         self.logger.debug(
-            self.name + ' | Correction after multiply: ' + str(get_temp_varition))
+            self.name
+            + ' | Correction after multiply: '
+            + str(get_temp_varition))
         return correction
 
     def _write_to_sys(self, value):

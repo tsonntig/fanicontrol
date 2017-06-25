@@ -1,3 +1,13 @@
+'''
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2
+ * of the License.
+
+@author: tsonntig
+'''
+
+
 from configparser import NoOptionError
 from logging.handlers import TimedRotatingFileHandler
 import argparse
@@ -8,8 +18,8 @@ import os.path
 import re
 import sys
 
-from res.Fan import Fan
-from res.Sensor import Sensor
+from fan import Fan
+from sensor import Sensor
 
 
 def enable_fans(fans, logger):
@@ -163,7 +173,7 @@ def create_fans(config, logger, sensors):
             array = arg1.split(",")
             for val in array:
                 for sensor in sensors:
-                    if val == sensor.get_name():
+                    if val == sensor.name:
                         newsensors.append(sensor)
             arg3 = config.get(section_name, "minPWM")
             arg4 = config.get(section_name, "startPWM")
@@ -253,11 +263,11 @@ def list_all(sensors, fans):
         for s in sensors:
             s.determine_temp_varition()
             print(
-                "\n NAME        : " + s.get_name()
-                + "\n SENSOR PATH     : " + s.get_sensor_path()
-                + "\n MAX TEMP    : " + str(s.get_maxTemp())
-                + "\n TARGET TEMP : " + str(s.get_target_temp())
-                + "\n ALGO   : " + s.get_algo()
+                "\n NAME        : " + s.name
+                + "\n SENSOR PATH     : " + s.sensor_path
+                + "\n MAX TEMP    : " + str(s.maxTemp)
+                + "\n TARGET TEMP : " + str(s.target_temp)
+                + "\n ALGO   : " + s.algo
                 + '\n TEMERATURE VARIATION: ' +
                 str(s.get_temp_varition())
             )
