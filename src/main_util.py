@@ -94,12 +94,10 @@ def create_logger(config, args):
         "%m-%d %H:%M:%S")
     fh.setFormatter(fmt)
     logger.addHandler(fh)
-    #  we don't want stdout in daemon mode
-    if not args.daemon:
-        cli = logging.StreamHandler()
-        cli.setLevel(cli_loglevel)
-        cli.setFormatter(fmt)
-        logger.addHandler(cli)
+    cli = logging.StreamHandler()
+    cli.setLevel(cli_loglevel)
+    cli.setFormatter(fmt)
+    logger.addHandler(cli)
     logger.info(sys.version)
     return logger
 
@@ -210,8 +208,6 @@ def get_args():
     parser.add_argument(
         "--check", action='store_true',
         help="check all configured fans and sensors")
-    parser.add_argument(
-        "--daemon", action='store_true', help="no messages to stdout")
     args = parser.parse_args()
     return args
 

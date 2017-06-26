@@ -125,7 +125,6 @@ def get_global():
         + '# Level : CRITICAL,ERROR,WARNING,INFO,DEBUG\n'
         + 'file_loglevel = DEBUG\n'
         + '# How many Infos should be to stdout ? \n'
-        + '# This Value is ignored if fanicontrol is started in Daemon mode\n'
         + '# Level : CRITICAL,ERROR,WARNING,INFO,DEBUG\n'
         + 'cli_loglevel = INFO\n'
         + 'rotateLog = h\n')
