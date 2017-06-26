@@ -22,7 +22,7 @@ A often seen Problem under Linux is that the Fanspeed is missing if you want to 
 1. clone the repo 
 
 ```ShellSession
-git clone "https://github.com/tsonntig/Fanicontrol.git"
+$ git clone "https://github.com/tsonntig/Fanicontrol.git"
 Klone nach 'Fanicontrol' ...
 remote: Counting objects: 47, done.
 remote: Compressing objects: 100% (39/39), done.
