@@ -265,7 +265,7 @@ def list_all(sensors, fans):
             print(
                 "\n NAME        : " + s.name
                 + "\n SENSOR PATH     : " + s.sensor_path
-                + "\n MAX TEMP    : " + str(s.maxTemp)
+                + "\n MAX TEMP    : " + str(s.max_temp)
                 + "\n TARGET TEMP : " + str(s.target_temp)
                 + "\n ALGO   : " + s.algo
                 + '\n TEMERATURE VARIATION: ' +
