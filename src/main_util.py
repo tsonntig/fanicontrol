@@ -269,6 +269,6 @@ def list_all(sensors, fans):
                 + "\n TARGET TEMP : " + str(s.target_temp)
                 + "\n ALGO   : " + s.algo
                 + '\n TEMERATURE VARIATION: ' +
-                str(s.get_temp_varition())
+                str(s.correction)
             )
     sys.exit(0)  # We have no lockfile or Fans to disable
