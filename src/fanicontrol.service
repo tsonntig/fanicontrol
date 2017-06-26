@@ -1,0 +1,10 @@
+[Unit]
+Description=the new way controling your fans
+Documentation=man:fanicontrol
+
+[Service]
+ExecStart=/usr/bin/fanicontrol 
+
+
+[Install]
+WantedBy=multi-user.target
