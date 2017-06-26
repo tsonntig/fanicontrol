@@ -148,7 +148,7 @@ def main_function():
         data_global = get_global()
         with open(config_path, 'w') as config_file:
             config_file.write(data_global + data_fans + data_sensor)
-        print('success !\n PLease check your config with fanicontrol --check!')
+        print('success !\n Please check your config with fanicontrol --check!')
     except AttributeError:
         traceback.print_exc()
     except Exception as e:
