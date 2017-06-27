@@ -1,7 +1,7 @@
 # Maintainer: tsonntig
 
 pkgname=fanicontrol-git
-pkgver=0.1
+pkgver=0.2
 pkgrel=1
 pkgdesc="a new way controling your fans"
 arch=('any')
@@ -9,23 +9,20 @@ url="https://github.com/tsonntig/Fanicontrol"
 license=('GPL2 only')
 groups=()
 depends=(python3)
-makedepends=('git' 'setuptools')
-source=('https://github.com/tsonntig/Fanicontrol.git')
+makedepends=('git')
+source=('git+https://github.com/tsonntig/Fanicontrol.git')
 md5sums=('SKIP')
 
 
 pkgver() {
-    cd "$srcdir/${pkgname%}"
-    git describe --tags | sed -e 's/^.\{,2\}//'
+    cd "$srcdir/Fanicontrol"
+    git describe --tags | sed 's/[-].*$//'
 }
-
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
-  python setup.py install --root="$pkgdir/" --optimize=1
+  cd "$srcdir/Fanicontrol"
+  python arch/setup.py install --root="$pkgdir/" --optimize=1
 }
 
-check() {
-	cd "$srcdir/${pkgname%-VCS}"
-	make -k check
-}
+
+
