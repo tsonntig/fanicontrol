@@ -12,5 +12,5 @@
 from distutils.core import setup
 setup(
     packages=['src'],
-    scripts=['src/fanicontrol', 'src/autoconfig'],
+    scripts=['src/fanicontrol', 'src/fanicontrol_autoconfig'],
 )
