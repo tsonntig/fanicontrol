@@ -10,7 +10,7 @@ license=('GPL')
 groups=()
 depends=(python3)
 makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
-source=('#tag=pkgver%')
+source=('')
 noextract=()
 md5sums=('SKIP')
 
