@@ -22,7 +22,7 @@ def algo(self, algo, temp):
     if (algo == 'default'):
         #  hard limit hit ?
         if temp > self.max_temp:
-            self.logger.info(str(self.name) + " max Temp !!! \n")
+            self.logger.warning(str(self.name) + " max Temp !!! \n")
             return 255
         else:
             return int(temp - self.target_temp)

@@ -100,8 +100,8 @@ def get_sensors():
                             + file)
                     if header_written:
                         data = (data
-                                + '\ntarget_temp = 40\n'
-                                + 'max_temp = 50\n'
+                                + '\ntarget_temp = 45\n'
+                                + 'max_temp = 60\n'
                                 + 'algo = default\n'
                                 + 'method=absolute')
                         unique_number += 1
@@ -126,7 +126,7 @@ def get_global():
         + 'file_loglevel = None\n'
         + '# How many Infos should be to stdout ? \n'
         + '# Level : CRITICAL,ERROR,WARNING,INFO,DEBUG\n'
-        + 'cli_loglevel = INFO\n'
+        + 'cli_loglevel = WARNING\n'
         + 'rotateLog = h\n')
 
 
