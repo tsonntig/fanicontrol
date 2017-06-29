@@ -96,7 +96,7 @@ def main_loop(logger, fans, sensors, interval, pinterval):
         for sen in sensors:
             logger.info("Next Sensor : " + sen.name)
             sen.determine_temp_varition()
-            logger.info('Temperature : %s', sen.get_temp())
+            logger.info('Temperature : %s', sen.temp)
         for fan in fans:
             logger.debug("Next Fan : " + fan.name)
             fan.check_fan()
