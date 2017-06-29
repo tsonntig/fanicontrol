@@ -19,9 +19,9 @@ A often seen Problem under Linux is that the Fanspeed is missing if you want to 
 
 ***Quickstart for Arch Users***
 
-1. Install the Package Fanicontrol from AUR
+1. Install the package fanicontrol from AUR
 
-2. Run the Autoconfigtool to get an Configfile 
+2. Run the autoconfigtool to get an configfile 
    ```sh
    fanicontrol_autoconfig
    ```
@@ -61,7 +61,7 @@ Could not restore Fans !
 ```   
 5. copy conf
    ```sh
-   cp .fanicontrol.conf /etc/fanicontrol.conf
+   sudo cp .fanicontrol.conf /etc/fanicontrol.conf
    ```   
 6. enable service
    ```sh
