@@ -59,4 +59,25 @@ Config: ./fanicontrol.conf
 Could not restore Fans !
 
 ```   
-   
+5. copy conf
+   ```sh
+   cp .fanicontrol.conf /etc/fanicontrol.conf
+   ```   
+6. enable service
+   ```sh
+   sudo systemctl enable fanicontrol.service
+   ```   
+7. start service
+   ```sh
+   sudo systemctl start fanicontrol.service
+   ```   
+8. keep watching temps (needs the lmsensor package) :
+   ```sh
+   watch -n 5 senors
+   ```   
+9. modify your config to your needs
+
+10. be happy and if you want to write me an mail : dev_tsonntig@tuta.io
+
+
+
