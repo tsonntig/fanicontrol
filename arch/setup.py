@@ -11,6 +11,6 @@
 
 from setuptools import setup, find_packages
 setup(
-    packages=['src'],
-    scripts=['src/fanicontrol', 'src/fanicontrol_autoconfig'],
+    packages=['fanicontrol'],
+    scripts=['fanicontrol/fanicontrol', 'fanicontrol/fanicontrol_autoconfig'],
 )
