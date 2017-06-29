@@ -85,13 +85,13 @@ def create_logger(config, args):
 
     logger = logging.getLogger("fanicontrol")
     logger.setLevel(logging.DEBUG)
+    fmt = logging.Formatter(
+        '%(asctime)s | %(levelname)s | %(funcName)s | %(message)s',
+        "%m-%d %H:%M:%S")
     if fh_loglevel != "None":
         fh = TimedRotatingFileHandler(
             logname, when=rotateLog, interval=1, backupCount=3)
         fh.setLevel(fh_loglevel)
-        fmt = logging.Formatter(
-            '%(asctime)s | %(levelname)s | %(funcName)s | %(message)s',
-            "%m-%d %H:%M:%S")
         fh.setFormatter(fmt)
         logger.addHandler(fh)
     if cli_loglevel != "None":
