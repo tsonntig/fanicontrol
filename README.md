@@ -15,38 +15,23 @@ A often seen Problem under Linux is that the Fanspeed is missing if you want to 
 
 **The Solution**
 
-...
+... in progress
 
-***Quickstart***
+***Quickstart for Arch Users***
 
-1. clone the repo 
+1. Install the Package Fanicontrol from AUR
 
+2. Run the Autoconfigtool to get an Configfile 
+   ```sh
+   fanicontrol_autoconfig
+   ```
+3. Test it
+   ```sh
+   fanicontrol --check --config=./fanicontrol.conf
+   ```   
+4. If all looks fine similar to this:
 ```ShellSession
-$ git clone "https://github.com/tsonntig/Fanicontrol.git"
-Klone nach 'Fanicontrol' ...
-remote: Counting objects: 47, done.
-remote: Compressing objects: 100% (39/39), done.
-remote: Total 47 (delta 19), reused 20 (delta 6), pack-reused 0
-Entpacke Objekte: 100% (47/47), Fertig.
-```
-2. let autoconfig do his work
-
-```ShellSession
-$ ./Fanicontrol/src/autoconfig 
-Start Autoconfig, please check the generated Configfile !
-Writing to :/home/user/fanicontrol.conf
-Search for Sensors
-Search for Fans
-success !
- Please check your config with fanicontrol --check!
-```
-3. test the generated config
-
-```ShellSession
-$ ./Fanicontrol/src/fanicontrol --check -c ./fanicontrol.conf
 Config: ./fanicontrol.conf
-06-26 03:01:49 | INFO | create_logger | 3.6.1 (default, Mar 27 2017, 00:27:06) 
-[GCC 6.3.1 20170306]
 **** FANS ****
 
  NAME        : fan_asus
@@ -66,12 +51,12 @@ Config: ./fanicontrol.conf
 
  NAME        : sensor_0_asus
  SENSOR PATH     : /sys/devices/platform/asus-nb-wmi/hwmon/hwmon3/temp1_input
- MAX TEMP    : 50
- TARGET TEMP : 40
+ MAX TEMP    : 60
+ TARGET TEMP : 45
  ALGO   : default
- TEMERATURE VARIATION: 0
+ TEMERATURE VARIATION: -2
 
 Could not restore Fans !
-$ 
 
-```
+```   
+   
