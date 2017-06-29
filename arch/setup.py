@@ -9,8 +9,15 @@
 '''
 
 
-from setuptools import setup, find_packages
+from setuptools import setup
 setup(
     packages=['fanicontrol'],
     scripts=['fanicontrol/fanicontrol', 'fanicontrol/fanicontrol_autoconfig'],
+    version          = __version__,
+    description      = "fanicontrol",
+    long_description = "A new way to control your Fans under Linux",
+    author           = "tsonntig",
+    url              = "https://github.com/tsonntig/Fanicontrol",
+    license          = "GPL2",
+    platforms        = ["POSIX"],
 )
