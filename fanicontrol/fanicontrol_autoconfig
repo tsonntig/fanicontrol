@@ -16,7 +16,7 @@ try:
     import os
     import re
     import traceback
-    from main_util import version_check
+    from fanicontrol.main_util import version_check
 except Exception:
     print(
         "can't import, probably because your python is too old"

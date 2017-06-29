@@ -10,7 +10,7 @@
 from _collections import deque
 import logging
 
-from fan_algo import use_algo
+from fanicontrol.fan_algo import use_algo
 
 
 class Fan(object):

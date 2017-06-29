@@ -18,8 +18,8 @@ import os.path
 import re
 import sys
 
-from fan import Fan
-from sensor import Sensor
+from fanicontrol.fan import Fan
+from fanicontrol.sensor import Sensor
 
 
 def enable_fans(fans, logger):

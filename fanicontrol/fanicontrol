@@ -15,7 +15,7 @@ try:
     import signal
     import time
     import traceback
-    from main_util import (
+    from fanicontrol.main_util import (
         create_fans, create_logger, create_sensors, enable_fans,
         exit_prog, get_args, get_interval, get_pinterval, list_all, log_list,
         read_config, system_check, version_check)

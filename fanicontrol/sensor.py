@@ -11,7 +11,7 @@ from subprocess import check_output
 import logging
 import re
 
-from sensor_algo import algo
+from fanicontrol.sensor_algo import algo
 
 
 class Sensor(object):
