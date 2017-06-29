@@ -13,7 +13,7 @@ from setuptools import setup
 setup(
     packages=['fanicontrol'],
     scripts=['fanicontrol/fanicontrol', 'fanicontrol/fanicontrol_autoconfig'],
-    name             = "fanicontrol"
+    name             = "fanicontrol",
     version          = "0.28",
     description      = "fanicontrol",
     long_description = "A new way to control your Fans under Linux",
