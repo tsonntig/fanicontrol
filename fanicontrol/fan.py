@@ -98,10 +98,10 @@ class Fan(object):
         #  find the sensor with the highest temperature varition
         get_temp_varition = -255
         for sensor in self.sensors_list:
-            new_temp_varition = sensor.get_temp_varition()
+            new_temp_varition = sensor.crrection
             if new_temp_varition > get_temp_varition:
                 get_temp_varition = new_temp_varition
-                sensor_high = sensor.get_name()
+                sensor_high = sensor.name
         self.logger.info(
             self.name + ' | Highest sensor : ' + str(sensor_high))
         self.logger.debug(
