@@ -1,0 +1,47 @@
+.TH "FANICONTOL\&.CONF" "5" "2017\-06\-30" "0.28" "Fanicontrol Manual"
+.SH "Description"
+
+an example configuration file can be created with the command:  fanicontrol_autoconfig
+
+
+the confic file for fanicontrol should be /etc/fanicontrol.conf . if you want to test your confic file you can run fanicontrol -c <CONFIGFILE> 
+
+
+The config file has one globalsection, named [global]
+all other section headers should contain the word "fan" or "sensor" .
+also surrounded with [] .
+
+Example:
+
+[sensor_23_core]
+
+[fan_1]
+
+the sequence of the sections are irrelevant .
+
+
+.SH "Global section"
+
+.IP interval
+The measurement and Control Interval in Seconds
+
+.IP pinterval 
+if a sensore has the same temperature for a long time the program can sleep a while . This option sets the time that the program sleeps .
+The Powersave Interval is in Seconds
+
+.IP logpath = /tmp/fanilog
+The Path to the Logfile
+
+.IP file_loglevel 
+How many Infos should be in the Logfile ? 
+# Level : None,CRITICAL,ERROR,WARNING,INFO,DEBUG
+
+.IP cli_loglevel
+How many Infos should be to stdout ? 
+# Level : CRITICAL,ERROR,WARNING,INFO,DEBUG
+
+.IP rotateLog = h
+if we write to a logfile how often should we rotate the logfile . Can be  S = Seconds , M = Minutes , H = Hours , D = Days , midnight 
+
+.SH "Sensor"
+
