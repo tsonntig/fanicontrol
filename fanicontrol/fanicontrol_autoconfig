@@ -113,19 +113,12 @@ def get_sensors():
 def get_global():
     return(
         '#\t !Please check this file !\n'
-        + '#\t try fanicontrol with the "--check" Option\n\n'
+        + '\n# Look at the manualpage \n\n'
         + '[global]\n'
-        + '# The measurement and Control Interval in Seconds\n'
         + 'interval = 1\n'
-        + '# The Powersave Interval in Seconds\n'
         + 'pinterval = 5\n'
-        + '# The Path to the Logfile\n'
         + 'logpath = /tmp/fanilog\n'
-        + '# How many Infos should be in the Logfile ? \n'
-        + '# Level : None,CRITICAL,ERROR,WARNING,INFO,DEBUG\n'
         + 'file_loglevel = None\n'
-        + '# How many Infos should be to stdout ? \n'
-        + '# Level : CRITICAL,ERROR,WARNING,INFO,DEBUG\n'
         + 'cli_loglevel = WARNING\n'
         + 'rotateLog = h\n')
 
