@@ -28,12 +28,6 @@ except Exception:
 ####
 
 
-class fano (object):
-
-    def __init__(self, root):
-        self.root = root
-
-
 class sensor (object):
 
     def __init__(self, root):
@@ -41,23 +35,37 @@ class sensor (object):
         self.sensor_list = []
 
 
+class fan (object):
+    pass
+
+
 def get_fans():
     print('Search for Fans')
     fans = []
     for root, _tmp, files in os.walk('/sys'):
-        f = fano(root)
+        name = ''
+        enable_files = []
+        pwm_files = []
         for file in files:
             if re.fullmatch('(name)', file):
                 with open((root + "/" + file), "r") as name_file:
-                    f.name = (name_file.readline().rstrip('\n'))
+                    name = (name_file.readline().rstrip('\n'))
             elif re.fullmatch('(pwm[0-9]{1,2}_enable)', file):
-                f.enable_file = file
+                enable_files.append(file)
             elif re.fullmatch('(pwm[0-9]{1,2})', file):
-                f.pwm_file = file
-        if (hasattr(f, 'enable_file')
-            and hasattr(f, 'pwm_file')
-                and hasattr(f, 'name')):
-            fans.append(f)
+                pwm_files.append(file)
+        for enable_file in enable_files:
+            for pwm_file in pwm_files:
+                if(
+                    re.findall("\d+", enable_file) ==
+                        re.findall("\d+", pwm_file)):
+
+                    fano = fan()
+                    fano.root = root
+                    fano.name = name
+                    fano.enable_file = enable_file
+                    fano.pwm_file = pwm_file
+                    fans.append(fano)
     return fans
 
 
