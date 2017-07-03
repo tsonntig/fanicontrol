@@ -27,28 +27,28 @@ def use_algo(self, get_temp_varition, algo, lastvalue):
             correction = 0
         elif get_temp_varition > 0:
             if get_temp_varition <= 1:
-                correction = 0
-            elif get_temp_varition <= 2:
                 correction = 1
+            elif get_temp_varition <= 2:
+                correction = 8
             elif get_temp_varition <= 4:
-                correction = 2
-            elif get_temp_varition <= 8:
                 correction = 16
+            elif get_temp_varition <= 8:
+                correction = 32
             elif get_temp_varition <= 10:
-                correction = 40
+                correction = 64
             else:
                 correction = 200
         elif get_temp_varition < 0:
             if get_temp_varition >= -1:
-                correction = 0
-            elif get_temp_varition >= -2:
                 correction = -1
-            elif get_temp_varition >= -4:
+            elif get_temp_varition >= -2:
                 correction = -8
-            elif get_temp_varition >= -8:
+            elif get_temp_varition >= -4:
                 correction = -16
+            elif get_temp_varition >= -8:
+                correction = -32
             elif get_temp_varition >= -10:
-                correction = -40
+                correction = -64
             else:
                 correction = -200
     elif algo == "aggressive":
