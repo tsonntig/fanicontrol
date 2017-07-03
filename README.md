@@ -32,29 +32,73 @@ A often seen Problem under Linux is that the Fanspeed is missing if you want to 
 4. If all looks fine similar to this:
 ```ShellSession
 Config: ./fanicontrol.conf
-**** FANS ****
 
- NAME        : fan_asus
- PWM PATH    : /sys/devices/platform/asus-nb-wmi/hwmon/hwmon3/pwm1
- MIN PWM     : 30
- START PWM   : 30
- ENABLE PATH : /sys/devices/platform/asus-nb-wmi/hwmon/hwmon3/pwm1_enable
- SENSORS: 
- 		sensor_0_asus
- 		sensor_1_coretemp
- 		sensor_2_coretemp
- 		sensor_3_coretemp
- 		sensor_4_acpitz
- 		sensor_5_pch_wildcat_point
+[global]
+interval = 1
+pinterval = 5
+logpath = /tmp/fanilog
+file_loglevel = None
+cli_loglevel = WARNING
+rotateLog = h
 
-**** SENSORS ****
+[fan_asus]
+fan_name = pwm1
+device_name = asus
+sensor_list = sensor_asus0,sensor_coretemp0,sensor_coretemp1,sensor_coretemp2,sensor_acpitz0,sensor_pch_wildcat_point0,
+minPWM = 30
+startPWM = 30
+algo = default
+lock = 5
+method= relative
 
- NAME        : sensor_0_asus
- SENSOR PATH     : /sys/devices/platform/asus-nb-wmi/hwmon/hwmon3/temp1_input
- MAX TEMP    : 60
- TARGET TEMP : 45
- ALGO   : default
- TEMERATURE VARIATION: -2
+[sensor_asus0]
+device_name = asus
+sensor_name = temp1_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_coretemp0]
+device_name = coretemp
+sensor_name = temp2_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_coretemp1]
+device_name = coretemp
+sensor_name = temp3_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_coretemp2]
+device_name = coretemp
+sensor_name = temp1_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_acpitz0]
+device_name = acpitz
+sensor_name = temp1_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_pch_wildcat_point0]
+device_name = pch_wildcat_point
+sensor_name = temp1_input
+target_temp = 45
+max_temp = 60
+algo = default
+method = relative
+
 
 Could not restore Fans !
 
