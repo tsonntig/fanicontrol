@@ -3,7 +3,7 @@ Description=the new way controling your fans
 Documentation=man:fanicontrol
 
 [Service]
-ExecStart=/usr/bin/fanicontrol 
+ExecStart=/usr/bin/fanictl
 
 
 [Install]
