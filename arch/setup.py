@@ -14,7 +14,7 @@ setup(
     packages=['fanicontrol'],
     scripts=['fanictl', 'fanicontrol_autoconfig'],
     name="fanicontrol",
-    version="0.28",
+    version="0.30",
     description="fanicontrol",
     long_description="A new way to control your Fans under Linux",
     author="tsonntig",
