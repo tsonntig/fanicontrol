@@ -27,7 +27,7 @@ A often seen Problem under Linux is that the Fanspeed is missing if you want to 
    ```
 3. Test it
    ```sh
-   fanicontrol --check --config=./fanicontrol.conf
+   fanictl --check --config=./fanicontrol.conf
    ```   
 4. If all looks fine similar to this:
 ```ShellSession
