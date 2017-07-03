@@ -1,15 +1,15 @@
-.TH "FANICONTOL\&.CONF" "5" "2017\-06\-30" "0.28" "Fanicontrol Manual"
+.TH "FANICONTOL\&.CONF" "5" "2017\-06\-30" "0.30" "Fanicontrol Manual"
 .SH "Description"
 
-an example configuration file can be created with the command:  fanicontrol_autoconfig
+An example configuration file can be created with the command:  fanicontrol_autoconfig
 
 
-the confic file for fanicontrol should be /etc/fanicontrol.conf . if you want to test your confic file you can run fanicontrol -c <CONFIGFILE> 
+The confic file for fanicontrol should be /etc/fanicontrol.conf . If you want to test your confic file you can run fanicontrol -c <CONFIGFILE> 
 
 
 The config file has one globalsection, named [global]
 all other section headers should contain the word "fan" or "sensor" .
-also surrounded with [] .
+Also surrounded with [] .
 
 Example:
 
@@ -17,8 +17,50 @@ Example:
 
 [fan_1]
 
-the sequence of the sections are irrelevant .
+The sequence of the sections are irrelevant .
 
+.SH "Sensor absolute"
+
+[sensor_template]
+.IP "sensor_path = /path/to/sensor/tempX_input"
+.IP "target_temp = 45" 
+.IP "max_temp = 60"
+.IP "algo = default"
+.IP "method = absolute"
+
+.SH "Sensor relative"
+
+[sensor_template]
+.IP "device_name = coretemp"
+.IP "sensor_name = tempX_input"
+.IP "target_temp = 45" 
+.IP "max_temp = 60"
+.IP "algo = default"
+.IP "method = relative"
+
+.SH "Fan absolute"
+
+[fan_template]
+.IP "pwm_enable = /path/to/fan/pwmX_enable"
+.IP "pwm_path = /path/to/fan/pwmX"
+.IP "sensor_list = sensor_header,sensor_header_2"
+.IP "minPWM = 30"
+.IP "startPWM = 0"
+.IP "lock = 5"
+.IP "algo = default"
+.IP "method = absolute"
+
+.SH "Fan relative"
+
+[fan_template]
+.IP "device_name = asus"
+.IP "fan_name = pwmX"
+.IP "sensor_list = sensor_header,sensor_header_2"
+.IP "minPWM = 30"
+.IP "startPWM = 0"
+.IP "lock = 5"
+.IP "algo = default"
+.IP "method = relative"
 
 .SH "Global section"
 
@@ -26,7 +68,7 @@ the sequence of the sections are irrelevant .
 The measurement and Control Interval in Seconds
 
 .IP pinterval 
-if a sensore has the same temperature for a long time the program can sleep a while . This option sets the time that the program sleeps .
+If a sensore has the same temperature for a long time the program can sleep a while . This option sets the time that the program sleeps .
 The Powersave Interval is in Seconds
 
 .IP logpath = /tmp/fanilog
@@ -40,8 +82,60 @@ How many Infos should be in the Logfile ?
 How many Infos should be to stdout ? 
 # Level : CRITICAL,ERROR,WARNING,INFO,DEBUG
 
-.IP rotateLog = h
-if we write to a logfile how often should we rotate the logfile . Can be  S = Seconds , M = Minutes , H = Hours , D = Days , midnight 
+.IP rotateLog 
+If we write to a logfile how often should we rotate the logfile . Can be  S = Seconds , M = Minutes , H = Hours , D = Days , midnight 
+
+.SH "Fan"
+
+.IP pwm_path 
+The path to the pwm file for this device
+
+.IP pwm_enable
+The path to the pwm enable file for this device
+
+.IP sensor_list
+Comma separted list of all Sensors which should be used to calculate the fan speed. For example for your cpu fan the cpu sensor  . And for a system fan all sensor available.
+
+.IP	minPWM
+
+The pwm value can be set from 0 to 255.the min pwm change the minimum value from default 0 to minPWM. 
+
+.IP startPWM
+If the PWM value is 0 and we want raise the pwm
+value it could be that the fan doesn't start because the fan needs more power to start.
+In this case  we should start the fan with a higher pwm value the startPWM.
+
+.IP algo
+
+If your are experienced user you can try experiementel algorythm. the default value is "default".
+
+.IP lock
+
+lock*sensorinterval = seconds the fan is locked for changing, after the fan speeds was changed. 
+
+.IP method
+
+Can be absolute or relative.
+
+.IP device_name
+To find the correct device we need the name from the name file. /sys/devices/path/to/the/device/name
+
+.IP fan_name
+To find the pwm file we need the name from the name file. /sys/devices/path/to/the/device/pwmX
 
 .SH "Sensor"
 
+.IP sensor_path
+The path to the senor file for this device
+
+.IP target_temp
+Is the target temparture which we want
+
+.IP max_temp
+If this temperature is reached, the fan speed will be 100%.
+
+.IP device_name
+To find the correct device we need the name from the name file. /sys/devices/path/to/the/device/name
+
+.IP sensor_name
+To find the pwm file we need the name from the name file. /sys/devices/path/to/the/device/tempX_input

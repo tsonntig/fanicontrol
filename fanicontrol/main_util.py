@@ -122,8 +122,8 @@ def create_sensors(config, logger):
             try:
                 method = config.get(section_name, 'method')
                 if method == 'relative':
-                    device_name = config.get(section_name, 'device_Name')
-                    sensor_name = config.get(section_name, 'sensor_Name')
+                    device_name = config.get(section_name, 'device_name')
+                    sensor_name = config.get(section_name, 'sensor_name')
                     arg1 = _find_device(device_name) + '/' + sensor_name
                 elif method == 'absolute':
                     arg1 = config.get(section_name, "sensor_path")
@@ -154,8 +154,8 @@ def create_fans(config, logger, sensors):
             try:
                 method = config.get(section_name, 'method')
                 if method == 'relative':
-                    device_name = config.get(section_name, 'device_Name')
-                    fan_name = config.get(section_name, 'fan_Name')
+                    device_name = config.get(section_name, 'device_name')
+                    fan_name = config.get(section_name, 'fan_name')
                     path_f = _find_device(device_name)
                     arg2 = path_f + '/' + fan_name
                     arg6 = path_f + '/' + fan_name + '_enable'

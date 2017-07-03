@@ -1,0 +1,223 @@
+#!/usr/bin/python
+'''
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2
+ * of the License.
+
+@author: tsonntig
+'''
+
+# Try Block nedded to be sure Python is not acient
+# don't move it !!! it must be first
+try:
+    import sys
+    import argparse
+    import os
+    import re
+    import traceback
+    import configparser
+    from fanicontrol.main_util import version_check
+except Exception:
+    print(
+        "can't import, probably because your python is too old"
+        " or some Files are missing")
+    sys.exit(1)
+####
+####
+####
+
+
+class sensor (object):
+
+    def __init__(self, root):
+        self.root = root
+        self.sensor_list = []
+
+
+class fan (object):
+    pass
+
+
+def get_fans():
+    print('Search for Fans')
+    fans = []
+    for root, _tmp, files in os.walk('/sys'):
+        name = ''
+        enable_files = []
+        pwm_files = []
+        for file in files:
+            if re.fullmatch('(name)', file):
+                with open((root + "/" + file), "r") as name_file:
+                    name = (name_file.readline().rstrip('\n'))
+            elif re.fullmatch('(pwm[0-9]{1,2}_enable)', file):
+                enable_files.append(file)
+            elif re.fullmatch('(pwm[0-9]{1,2})', file):
+                pwm_files.append(file)
+        for enable_file in enable_files:
+            for pwm_file in pwm_files:
+                if(
+                    re.findall("\d+", enable_file) ==
+                        re.findall("\d+", pwm_file)):
+
+                    fano = fan()
+                    fano.root = root
+                    fano.name = name
+                    fano.enable_file = enable_file
+                    fano.pwm_file = pwm_file
+                    fans.append(fano)
+    return fans
+
+
+def make_fan_sections_absolute(fans, sensors):
+    data = ''
+    for fan in fans:
+        data = (
+            data +
+            '\n[fan_' + str(fan.name) + ']\n'
+            + 'pwm_path = ' + str(fan.root) + '/' + str(fan.pwm_file) + '\n'
+            + 'pwm_enable = ' + str(fan.root) + '/' + str(fan.enable_file)
+            + '\n')
+        data = data + 'sensor_list = ' + str(sensors) + '\n'
+        data = (data
+                + 'minPWM = 30\n'
+                + 'startPWM = 30\n'
+                + 'algo = default\n'
+                + 'lock = 5\n'
+                + 'method=absolute\n')
+    return data
+
+
+def make_fan_sections_relative(fans, sensors):
+    data = ''
+    for fan in fans:
+        data = (
+            data +
+            '\n[fan_' + str(fan.name) + ']\n'
+            + 'fan_name = ' + (fan.pwm_file) + '\n'
+            + 'device_name = ' + str(fan.name)
+            + '\n')
+        data = data + 'sensor_list = ' + str(sensors) + '\n'
+        data = (data
+                + 'minPWM = 30\n'
+                + 'startPWM = 30\n'
+                + 'algo = default\n'
+                + 'lock = 5\n'
+                + 'method= relative\n')
+    return data
+
+
+def get_sensors_devices():
+    sensors_devices = []
+    for root, _tmp, files in os.walk('/sys'):
+        s = sensor(root)
+        for file in files:
+            if re.fullmatch('(name)', file):
+                with open((root + "/" + file), "r") as name_file:
+                    s.name = name_file.readline().rstrip(
+                        '\n')
+            elif re.search('(temp.*input.*)', file):
+                s.sensor_list.append(file)
+        if (hasattr(s, 'name') and len(s.sensor_list) > 0):
+            sensors_devices.append(s)
+    return sensors_devices
+
+
+def make_sensor_sections_absolute(sensorsdevices):
+    data = ''
+    for sensors in sensorsdevices:
+        for index, sensor in enumerate(sensors.sensor_list):
+            data = (
+                data +
+                '\n[sensor_' + str(sensors.name) + str(index) + ']\n'
+                + 'sensor_path = ' + str(sensors.root) + '/' +
+                str(sensor)
+                + '\n')
+            data = (data
+                    + 'target_temp = 45\n'
+                    + 'max_temp = 60\n'
+                    + 'algo = default\n'
+                    + 'method = absolute\n')
+    return data
+
+
+def make_sensor_sections_relative(sensorsdevices):
+    data = ''
+    for sensors in sensorsdevices:
+        for index, sensor in enumerate(sensors.sensor_list):
+            data = (
+                data +
+                '\n[sensor_' + str(sensors.name) + str(index) + ']\n'
+                + 'device_name = ' + str(sensors.name) + '\n'
+                + 'sensor_name = ' + str(sensor) + '\n'
+            )
+            data = (data
+                    + 'target_temp = 45\n'
+                    + 'max_temp = 60\n'
+                    + 'algo = default\n'
+                    + 'method = relative\n')
+    return data
+
+
+def make_global():
+    return(
+        '#\t !Please check this file !\n'
+        + '\n# Look at the manualpage \n\n'
+        + '[global]\n'
+        + 'interval = 1\n'
+        + 'pinterval = 5\n'
+        + 'logpath = /tmp/fanilog\n'
+        + 'file_loglevel = None\n'
+        + 'cli_loglevel = WARNING\n'
+        + 'rotateLog = h\n')
+
+
+def make_sensorlist(data):
+    sensors = ''
+    config = configparser.ConfigParser()
+    config.read_string(data)
+    for sec in config.sections():
+        sensors = sensors + sec + ','
+    return sensors
+
+
+def main_function():
+    try:
+        version_check()
+        print('Start Autoconfig, please check the generated Configfile !')
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-c', '--config', help='Path to configfile')
+        parser.add_argument(
+            "-a", "--absolute", action='store_true',
+            help="Use absolute Paths instead of names")
+        args = parser.parse_args()
+        if args.config:
+            config_path = args.config
+        else:
+            config_path = os.getcwd() + '/fanicontrol.conf'
+        print('Writing to :' + config_path)
+        if args.absolute:
+            data_sensors = get_sensors_devices()
+            data = make_sensor_sections_absolute(data_sensors)
+            fans = get_fans()
+            data_fans = make_fan_sections_absolute(fans, make_sensorlist(data))
+        else:
+            data_sensors = get_sensors_devices()
+            data = make_sensor_sections_relative(data_sensors)
+            fans = get_fans()
+            data_fans = make_fan_sections_relative(fans, make_sensorlist(data))
+        data_global = make_global()
+        with open(config_path, 'w') as config_file:
+            config_file.write(data_global + data_fans + data)
+            print('success !\n Please check your config with fanicontrol --check!')
+    except AttributeError:
+        traceback.print_exc()
+    except Exception as e:
+        traceback.print_tb(e.__traceback__)
+        print(e)
+    sys.exit(1)
+
+
+####################
+if __name__ == "__main__":
+    main_function()

@@ -31,7 +31,7 @@ def use_algo(self, get_temp_varition, algo, lastvalue):
             elif get_temp_varition <= 2:
                 correction = 1
             elif get_temp_varition <= 4:
-                correction = 8
+                correction = 2
             elif get_temp_varition <= 8:
                 correction = 16
             elif get_temp_varition <= 10:
