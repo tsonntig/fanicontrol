@@ -25,7 +25,7 @@ def algo(self, algo, temp):
             self.logger.warning(str(self.name) + " max Temp !!! \n")
             return 255
         else:
-            return int(temp - self.target_temp)
+            return round(temp - self.target_temp)
 
     elif (algo == '3to1'):
         try:
@@ -42,7 +42,7 @@ def algo(self, algo, temp):
         self.logger.debug(
             self.name + ' | Correction: ' +
             str(correction) + ' target Temp: ' + str(self.target_temp))
-        return int(correction)
+        return round(correction)
 #
 #
 #  enhanced one for very buggy sensors
@@ -69,7 +69,7 @@ def algo(self, algo, temp):
         self.logger.debug(
             self.name + ' | Correction: ' +
             str(correction) + ' target Temp: ' + str(self.target_temp))
-        return int(correction)
+        return round(correction)
 
     elif (algo == 'exsensor'):
         try:
@@ -95,7 +95,7 @@ def algo(self, algo, temp):
         self.logger.debug(
             self.name + ' | Correction: ' +
             str(correction) + ' target Temp: ' + str(self.target_temp))
-        return int(correction)
+        return round(correction)
 
 #
 #

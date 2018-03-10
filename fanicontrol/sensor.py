@@ -27,6 +27,7 @@ class Sensor(object):
         self.temp = self._get_Data()
         self.correction = algo(self, self.algo, self.temp)
 
+
 #  # private Functions
 #  #
 #  #
@@ -35,7 +36,7 @@ class Sensor(object):
         if self.sensor_normal:
             with open(self.sensor_path, "rb") as sensor_file:
                 data = int(sensor_file.read(5))
-                sen = float(data / 1000)
+                sen = float(data / 1000)  # float needed we could get an int !
         #  hddtemp sensor
         else:
             sen = check_output(["hddtemp", "-n", self.sensor_path])
