@@ -80,10 +80,10 @@ def make_fan_sections_absolute(fans, sensors):
             + '\n')
         data = data + 'sensor_list = ' + str(sensors) + '\n'
         data = (data
-                + 'minPWM = 30\n'
+                + 'minPWM = 20\n'
                 + 'startPWM = 30\n'
+                + 'maxPWM = 255\n'               
                 + 'algo = default\n'
-                + 'lock = 5\n'
                 + 'method=absolute\n')
     return data
 
@@ -99,11 +99,11 @@ def make_fan_sections_relative(fans, sensors):
             + '\n')
         data = data + 'sensor_list = ' + str(sensors) + '\n'
         data = (data
-                + 'minPWM = 30\n'
+                + 'minPWM = 20\n'
                 + 'startPWM = 30\n'
+                + 'maxPWM = 255\n'               
                 + 'algo = default\n'
-                + 'lock = 5\n'
-                + 'method= relative\n')
+                + 'method=relative\n')
     return data
 
 

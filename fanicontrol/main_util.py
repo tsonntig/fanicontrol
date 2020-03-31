@@ -41,7 +41,8 @@ def exit_prog(*args):
             for fan in ar:
                 if isinstance(fan, Fan):
                     fan.disable()
-    except:
+    except Exception as e:
+        print(e, file=sys.stderr)
         print("Could not restore Fans !", file=sys.stderr)
     finally:
         os._exit(1)
@@ -158,16 +159,16 @@ def create_fans(config, logger, sensors):
                     fan_name = config.get(section_name, 'fan_name')
                     path_f = _find_device(device_name)
                     arg2 = path_f + '/' + fan_name
-                    arg6 = path_f + '/' + fan_name + '_enable'
+                    arg5 = path_f + '/' + fan_name + '_enable'
                 elif method == 'absolute':
                     arg2 = config.get(section_name, "pwm_path")
-                    arg6 = config.get(section_name, "pwm_enable")
+                    arg5 = config.get(section_name, "pwm_enable")
                 else:
                     raise ValueError('Unknown method: ' + method)
             except NoOptionError:
                 logger.warn("No method in Config file")
                 arg2 = config.get(section_name, "pwm_path")
-                arg6 = config.get(section_name, "pwm_enable")
+                arg5 = config.get(section_name, "pwm_enable")
             arg1 = config.get(section_name, "sensor_list")
             array = arg1.split(",")
             for val in array:
@@ -176,13 +177,14 @@ def create_fans(config, logger, sensors):
                         newsensors.append(sensor)
             arg3 = config.get(section_name, "minPWM")
             arg4 = config.get(section_name, "startPWM")
-            arg5 = config.get(section_name, "lock")
+            arg6 = config.get(section_name, "maxPWM")
             arg7 = config.get(section_name, "algo")
             logger.debug(
-                'New Fan :' + section_name
-                + ' at: ' + arg2 + arg3 + arg4 + arg5 + arg6 + arg7)
+                'New Fan :\t' + section_name
+                + ' at:\t' + arg2 + "\t" + arg3 + "\t" + arg4
+                + "\t" + arg5 + "\t" + arg7 + "\t" + arg6)
             fanv = Fan(
-                section_name, newsensors, arg2, arg3, arg4, arg5, arg6, arg7)
+                section_name, newsensors, arg2, arg3, arg4, arg5, arg7, arg6)
             fans.append(fanv)
     return fans
 

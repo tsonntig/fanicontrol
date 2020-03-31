@@ -89,7 +89,7 @@ def main_function():
 
 
 def main_loop(logger, fans, sensors, interval, pinterval):
-    psleep = True
+    psleep = False
     logger.info('Init has been successfully finished')
     while 1:
         p = time.process_time()
@@ -100,15 +100,14 @@ def main_loop(logger, fans, sensors, interval, pinterval):
         for fan in fans:
             logger.debug("Next Fan : " + fan.name)
             fan.check_fan()
-            if not fan.sleep:
-                psleep = False
-        logger.debug(str(time.process_time() - p))
+            psleep = fan.sleep()
+            logger.debug("Psleep: \t" + str(psleep))
+        logger.debug("Process Time since loop start:" + str(time.process_time() - p))
         if psleep:
-            logger.info("Powersafemode...")
             time.sleep(int(pinterval))
         else:
             time.sleep(int(interval))
-        psleep = True
+
 ####################
 
 

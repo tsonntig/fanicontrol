@@ -1,0 +1,69 @@
+#	 !Please check this file !
+
+# Look at the manualpage 
+
+[global]
+interval = 5
+pinterval = 10
+logpath = /tmp/fanilog
+file_loglevel = DEBUG
+cli_loglevel = WARNING
+rotateLog = h
+
+[fan_asus]
+fan_name = pwm1
+device_name = asus
+sensor_list = sensor_coretemp0,sensor_coretemp1,sensor_coretemp2,sensor_asus0,sensor_acpitz0,sensor_pch_wildcat_point0,
+minPWM = 5
+startPWM = 10
+algo = default
+lock = 5
+method= relative
+
+[sensor_coretemp0]
+device_name = coretemp
+sensor_name = temp3_input
+target_temp = 65
+max_temp = 90
+algo = default
+method = relative
+
+[sensor_coretemp1]
+device_name = coretemp
+sensor_name = temp1_input
+target_temp = 65
+max_temp = 90
+algo = default
+method = relative
+
+[sensor_coretemp2]
+device_name = coretemp
+sensor_name = temp2_input
+target_temp = 65
+max_temp = 90
+algo = default
+method = relative
+
+[sensor_asus0]
+device_name = asus
+sensor_name = temp1_input
+target_temp = 50
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_acpitz0]
+device_name = acpitz
+sensor_name = temp1_input
+target_temp = 50
+max_temp = 60
+algo = default
+method = relative
+
+[sensor_pch_wildcat_point0]
+device_name = pch_wildcat_point
+sensor_name = temp1_input
+target_temp = 50
+max_temp = 60
+algo = default
+method = relative

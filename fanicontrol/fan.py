@@ -9,7 +9,6 @@
 
 from _collections import deque
 import logging
-
 from fanicontrol.fan_algo import use_algo
 
 
@@ -25,29 +24,41 @@ class Fan(object):
 #
 #
 
-    def enable(self):
-        with open(self.pwm_enable, "w") as pwm_file:
+    def enable(self) -> bool:
+        with open(self.pwm_enable, "w+") as pwm_file:
+            self.oldpwm = pwm_file.readline().rstrip('\n')  # for restoring the fan
             pwm_file.write("1")
-        with open(self.pwm_enable, "rb") as pwm_file:
-            val = int(pwm_file.read())
-        if val == 0:
-            raise ValueError("PWM enable Value: " + str(val))
+        check = self.check_enabled()
+        if check:
+            self.logger.info(self.name + " enabled")
+        return check
+
+    def check_enabled(self) -> bool:
+        with open(self.pwm_enable, "r") as pwm_file:
+            val = pwm_file.readline().rstrip('\n')
+        return bool(val)
 
     def disable(self):
-        with open(self.pwm_enable, "w") as pwm_file:
-            pwm_file.write("0")
-        with open(self.pwm_enable, "rb") as pwm_file:
-            val = int(pwm_file.read())
-        if val == 1:
-            raise ValueError("PWM enable Value: " + str(val))
+        with open(self.pwm_enable, "w+") as pwm_file:
+            pwm_file.write(self.oldpwm)
+        with open(self.pwm_enable, "r") as pwm_file:
+            val = pwm_file.readline().rstrip('\n')
+        if val != self.oldpwm:
+            raise ValueError("PWM enable could not be restored\t" + val + " != " + self.oldpwm)      
+
+    def sleep(self) -> bool:
+        # sleep is recommend ?
+        return self._all_same(self.pwm_history)
+
+    def _all_same(self, items):
+        return all(x == items[0] for x in items)
 
     def check_fan(self):
-        #  no change if we changed in the last interval
-        if self.alock > 0:
-            self.alock = self.alock - 1
-            self.logger.info(self.name + ' | Fan is locked')
-            return
         correction = self._get_sensor_correction()
+        # special number to indicate max Temp was reached
+        if (correction == 999):
+            self.pwm_history.append(255)
+            self._write_to_sys(255)
 
         #  now we can calculate the needed pwm value
         value = self.lastvalue + correction
@@ -62,20 +73,15 @@ class Fan(object):
             value = 255
         elif value < 0:
             value = 0
+        value = self.maxPWM if value > self.maxPWM else value
         self.pwm_history.append(value)
-        # sleep is recommend ?
-        if (self._all_same(self.pwm_history)):
-            self.sleep = True
-            return
-        else:
-            self.sleep = False  # no sleep recommend
         self._write_to_sys(value)
 # private Functions
 #
 #
 
     def __init__(self, name, sensors_list, pwm_path, minPWM, startPWM,
-                 lock, pwm_enable, algo):
+                 pwm_enable, algo, maxPWM):
         self.sensors_list = sensors_list
         # this is outside limits so we force the fan to write a new value
         self.lastvalue = -100
@@ -84,15 +90,10 @@ class Fan(object):
         self.name = name
         self.minPWM = int(minPWM)
         self.startPWM = int(startPWM)
-        self.sleep = False
-        self.lock = int(lock)
-        self.alock = 0
-        self.pwm_history = deque('9876543210', 10)
         self.logger = logging.getLogger("fanicontrol")
         self.algo = algo
-
-    def _all_same(self, items):
-        return all(x == items[0] for x in items)
+        self.maxPWM = int(maxPWM)
+        self.pwm_history = deque('9876543210', 10)
 
     def _get_sensor_correction(self):
         #  find the sensor with the highest temperature varition
@@ -104,27 +105,26 @@ class Fan(object):
                 sensor_high = sensor.name
         self.logger.info(
             self.name + ' | Highest sensor : ' + str(sensor_high))
+        if (get_temp_varition == 999):
+            return 999
         self.logger.debug(
             self.name
-            + ' | Correction before multiply: '
+            + ' | Correction before algo: '
             + str(get_temp_varition))
         correction = use_algo(self, get_temp_varition,
                               self.algo, self.lastvalue)
         self.logger.debug(
             self.name
-            + ' | Correction after multiply: '
-            + str(get_temp_varition))
+            + ' | Correction after algo: '
+            + str(correction))
         return correction
 
     def _write_to_sys(self, value):
-        #  only write data if needed
-        if value != self.lastvalue:
-            self.logger.info(self.name + ' | Set new PWM : ' + str(value))
-            with open(self.pwm_path, "w") as pwm_file:
-                pwm_file.write(str(value))
+        fan_enabled = self.check_enabled()
+        if not(fan_enabled):
+            self.logger.info(self.name + "not enabled")
+            self.enable()
+        self.logger.info(self.name + ' | Set new PWM : ' + str(value))
+        with open(self.pwm_path, "w") as pwm_file:
+            pwm_file.write(str(value).rstrip('\n'))
             self.lastvalue = value
-            self.alock = self.lock
-        else:
-            self.alock = self.lock
-            self.logger.info(
-                self.name + ' | No need to set new PWM :    ' + str(value))

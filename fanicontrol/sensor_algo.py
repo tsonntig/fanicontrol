@@ -14,18 +14,17 @@ from _collections import deque
 
 
 def algo(self, algo, temp):
+    #  hard limit hit ?
+    if temp > self.max_temp:
+        self.logger.warning(str(self.name) + " max Temp !!! \n")
+        return 999
     #
     #
     #  if your sensor gives always correct data
     #  use this one
     #
     if (algo == 'default'):
-        #  hard limit hit ?
-        if temp > self.max_temp:
-            self.logger.warning(str(self.name) + " max Temp !!! \n")
-            return 255
-        else:
-            return int(temp - self.target_temp)
+        return int(temp - self.target_temp)
 
     elif (algo == '3to1'):
         try:
